@@ -10,7 +10,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdcb.DashScope.Tests", "Sdcb.DashScope.Tests\Sdcb.DashScope.Tests.csproj", "{5F147F0D-54D9-420C-807A-6272AAFB8E5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sdcb.DashScope.Tests", "Sdcb.DashScope.Tests\Sdcb.DashScope.Tests.csproj", "{5F147F0D-54D9-420C-807A-6272AAFB8E5A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{3EFB12B7-59F2-488A-B63B-4E4E8AC8FC17}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\00-common.linq = scripts\00-common.linq
+		scripts\01-build-packages.linq = scripts\01-build-packages.linq
+		scripts\02-publish-proget-nuget.linq = scripts\02-publish-proget-nuget.linq
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +36,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EFB12B7-59F2-488A-B63B-4E4E8AC8FC17} = {D7874C6C-7D6E-4686-B1FE-DD42B524BBDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2BC5B5B-DC97-48B8-8D01-9621F96FEF72}

@@ -7,6 +7,9 @@ namespace Sdcb.DashScope;
 /// </summary>
 public class TaskUsage
 {
+    /// <summary>
+    /// Image count
+    /// </summary>
     [JsonPropertyName("image_count")]
     public int ImageCount { get; set; }
 }
