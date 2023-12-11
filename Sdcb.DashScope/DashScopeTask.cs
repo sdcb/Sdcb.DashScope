@@ -18,5 +18,5 @@ public class DashScopeTask
     /// Gets or sets the job status after submitting the asynchronous task.
     /// </summary>
     [JsonPropertyName("task_status")]
-    public TaskStatus TaskStatus { get; init; }
+    public DashScopeTaskStatus TaskStatus { get; init; }
 }

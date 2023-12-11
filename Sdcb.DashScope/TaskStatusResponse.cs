@@ -20,7 +20,7 @@ public record TaskStatusResponse
     /// The current status of the task.
     /// </summary>
     [JsonPropertyName("task_status")]
-    public required TaskStatus TaskStatus { get; init; }
+    public required DashScopeTaskStatus TaskStatus { get; init; }
 
     /// <summary>
     /// Metrics for the task such as duration and resource consumption, only available in text2image request.
@@ -53,7 +53,7 @@ public record TaskStatusResponse
     /// <returns>Instance of <see cref="SuccessTaskResponse"/>.</returns>
     public SuccessTaskResponse AsSuccess()
     {
-        if (this.TaskStatus != TaskStatus.Succeeded || ExtraData == null)
+        if (this.TaskStatus != DashScopeTaskStatus.Succeeded || ExtraData == null)
         {
             throw new InvalidOperationException($"Text2ImageBaseOutput is not in succeed status.");
         }
@@ -68,7 +68,7 @@ public record TaskStatusResponse
     /// <returns>Instance of <see cref="FailedTaskResponse"/>.</returns>
     public FailedTaskResponse AsFailed()
     {
-        if (this.TaskStatus != TaskStatus.Failed || ExtraData == null)
+        if (this.TaskStatus != DashScopeTaskStatus.Failed || ExtraData == null)
         {
             throw new InvalidOperationException($"Text2ImageBaseOutput is not in failed status.");
         }

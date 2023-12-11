@@ -35,9 +35,7 @@ void PublishNuGet(string path)
 void Refresh()
 {
 	string dir = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath)!, "nupkgs");
-	IEnumerable<string> pkgs = Directory.EnumerateFiles(dir, "*.nupkg")
-		.Where(x => !x.Contains("-preview.2"))
-		;
+	IEnumerable<string> pkgs = Directory.EnumerateFiles(dir, "*.nupkg");
 	dc.Content = new
 	{
 		Functions = Util.HorizontalRun(true,

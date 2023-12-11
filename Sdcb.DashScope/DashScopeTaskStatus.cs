@@ -6,7 +6,7 @@ namespace Sdcb.DashScope;
 /// Represents the possible states of a Text to Image job.
 /// </summary>
 [JsonConverter(typeof(TaskStatusConverter))]
-public enum TaskStatus
+public enum DashScopeTaskStatus
 {
     /// <summary>
     /// The job is queued and waiting to be processed.
