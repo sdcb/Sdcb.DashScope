@@ -34,7 +34,7 @@ public class UnitTest1
             TaskStatusResponse resp = await c.QueryTaskStatus(task.TaskId);
             _console.WriteLine(resp.TaskStatus.ToString());
 
-            if (resp.TaskStatus == TaskStatus.Succeeded)
+            if (resp.TaskStatus == DashScopeTaskStatus.Succeeded)
             {
                 SuccessTaskResponse success = resp.AsSuccess();
                 using HttpClient client = new();
@@ -49,7 +49,7 @@ public class UnitTest1
                 }
                 break;
             }
-            else if (resp.TaskStatus == TaskStatus.Failed)
+            else if (resp.TaskStatus == DashScopeTaskStatus.Failed)
             {
                 FailedTaskResponse failed = resp.AsFailed();
                 _console.WriteLine($"Failed!");
@@ -79,7 +79,7 @@ public class UnitTest1
             TaskStatusResponse resp = await c.QueryTaskStatus(task.TaskId);
             _console.WriteLine(resp.TaskStatus.ToString());
 
-            if (resp.TaskStatus == TaskStatus.Succeeded)
+            if (resp.TaskStatus == DashScopeTaskStatus.Succeeded)
             {
                 SuccessTaskResponse success = resp.AsSuccess();
                 using HttpClient client = new();
@@ -94,7 +94,7 @@ public class UnitTest1
                 }
                 break;
             }
-            else if (resp.TaskStatus == TaskStatus.Failed)
+            else if (resp.TaskStatus == DashScopeTaskStatus.Failed)
             {
                 FailedTaskResponse failed = resp.AsFailed();
                 _console.WriteLine($"Failed!");

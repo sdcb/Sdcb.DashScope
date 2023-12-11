@@ -102,7 +102,7 @@ public class DashScopeClient : IDisposable
 
         try
         {
-            return (await response.Content.ReadFromJsonAsync<ResponseWrapper<T>>(cancellationToken))!.Output;
+            return (await response.Content.ReadFromJsonAsync<ResponseWrapper<T>>(options: null, cancellationToken))!.Output;
         }
         catch (Exception e) when (e is NotSupportedException or JsonException)
         {
