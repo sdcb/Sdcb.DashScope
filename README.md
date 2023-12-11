@@ -1,3 +1,4 @@
 # Sdcb.DashScope
 
-Ϊ���������ģ�ͷ���DashScope�����ķǹٷ�.NET SDK
+为阿里云灵积模型服务DashScope开发的非官方.NET SDK
+![icon](./icon.png)
