@@ -91,7 +91,7 @@ public record Text2ImageParams
 {
     /// <summary>
     /// <para>The resolution for the generated image.</para>
-    /// <para>For "stable-diffusion-v1.5" the default size is "512*512".</para>
+    /// <para>For "stable-diffusion-v1.5" the size must be null or "512*512".</para>
     /// <para>
     /// For "stable-diffusion-xl", allowed values are combinations of width and height between 512 and 1024 in increments of 128 (e.g., "512*1024", "1024*768"),
     /// The default value is "1024*1024".
@@ -102,7 +102,7 @@ public record Text2ImageParams
 
     /// <summary>
     /// The number of images to generate for the request.
-    /// The allowed range is 1 to 4 inclusive, with the default being 4.
+    /// The allowed range is 1 to 4 inclusive, with the default being 1.
     /// </summary>
     [JsonPropertyName("n")]
     public int? N { get; init; }

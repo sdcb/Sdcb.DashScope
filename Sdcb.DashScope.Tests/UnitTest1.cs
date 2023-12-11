@@ -26,7 +26,7 @@ public class UnitTest1
             Prompt = "standing, ultra detailed, official art, 4k 8k wallpaper, soft light and shadow, hand detail, eye high detail, 8K, (best quality:1.5), pastel color, soft focus, masterpiece, studio, hair high detail, (pure background:1.2), (head fully visible, full body shot)",
             NegativePrompt = "EasyNegative, nsfw,(low quality, worst quality:1.4),lamp, missing shoe, missing head,mutated hands and fingers,deformed,bad anatomy,extra limb,ugly,poorly drawn hands,disconnected limbs,missing limb,missing head,camera"
         };
-        DashScopeTask task = await c.Text2Image(prompt, new Text2ImageParams { Size = "576*1024" });
+        DashScopeTask task = await c.Text2Image(prompt);
         _console.WriteLine(task.TaskId);
 
         while (true)
@@ -47,9 +47,19 @@ public class UnitTest1
                     using FileStream fs = new($"image{i}.png", FileMode.Create);
                     await imgStream.CopyToAsync(fs);
                 }
+                break;
             }
-
-            await Task.Delay(1000);
+            else if (resp.TaskStatus == TaskStatus.Failed)
+            {
+                FailedTaskResponse failed = resp.AsFailed();
+                _console.WriteLine($"Failed!");
+                _console.WriteLine($"reason: {failed.Code} {failed.Message}");
+                break;
+            }
+            else
+            {
+                await Task.Delay(1000);
+            }
         }
     }
 }
