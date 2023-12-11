@@ -7,19 +7,31 @@
     <IncludeSymbols>true</IncludeSymbols>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     <Description>为阿里云DashScope开发的非官方.NET SDK</Description>
     <PackageTags>Aliyun;DashScope;Sdcb;StableDiffusion;Qwen;通义千问;LangChain;linqpad-samples</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/sdcb/Sdcb.DashScope</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sdcb/Sdcb.DashScope.git</RepositoryUrl>
+    <Copyright>MIT</Copyright>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net5'">
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
     <PackageReference Include="PolySharp" Version="1.14.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
