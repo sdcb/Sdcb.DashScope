@@ -5,7 +5,7 @@ namespace Sdcb.DashScope;
 /// <summary>
 /// Generic base response class for image request async task.
 /// </summary>
-public record TaskStatusWrapper
+internal record ResponseWrapper<T>
 {
     /// <summary>
     /// Gets or initiates the request id. This unique identifier corresponds to each individual request.
@@ -17,5 +17,5 @@ public record TaskStatusWrapper
     /// Gets or initiates the output. This represents the processed task status response associated with the respective request.
     /// </summary>
     [JsonPropertyName("output")]
-    public required TaskStatusResponse Output { get; init; }
+    public required T Output { get; init; }
 }

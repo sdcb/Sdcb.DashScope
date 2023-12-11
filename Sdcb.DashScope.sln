@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdcb.DashScope.Tests", "Sdcb.DashScope.Tests\Sdcb.DashScope.Tests.csproj", "{5F147F0D-54D9-420C-807A-6272AAFB8E5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{5C4C4151-F487-4AA5-A3C5-734FEE492D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C4C4151-F487-4AA5-A3C5-734FEE492D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C4C4151-F487-4AA5-A3C5-734FEE492D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F147F0D-54D9-420C-807A-6272AAFB8E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F147F0D-54D9-420C-807A-6272AAFB8E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F147F0D-54D9-420C-807A-6272AAFB8E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F147F0D-54D9-420C-807A-6272AAFB8E5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

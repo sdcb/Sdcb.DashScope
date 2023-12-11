@@ -3,24 +3,6 @@
 namespace Sdcb.DashScope;
 
 /// <summary>
-/// Represents the response for a Text to Image request.
-/// </summary>
-public class DashScopeTaskWrapper
-{
-    /// <summary>
-    /// Gets or sets the output response, including the job ID and status.
-    /// </summary>
-    [JsonPropertyName("output")]
-    public required DashScopeTask Output { get; set; }
-
-    /// <summary>
-    /// Gets or sets the unique system identifier for the current request.
-    /// </summary>
-    [JsonPropertyName("request_id")]
-    public required string RequestId { get; set; }
-}
-
-/// <summary>
 /// Represents the output section of the Text to Image response.
 /// </summary>
 public class DashScopeTask
