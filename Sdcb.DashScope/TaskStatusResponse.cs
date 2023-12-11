@@ -23,10 +23,10 @@ public record TaskStatusResponse
     public required TaskStatus TaskStatus { get; init; }
 
     /// <summary>
-    /// Metrics for the task such as duration and resource consumption.
+    /// Metrics for the task such as duration and resource consumption, only available in text2image request.
     /// </summary>
     [JsonPropertyName("task_metrics")]
-    public required TaskMetrics TaskMetrics { get; init; }
+    public TaskMetrics? TaskMetrics { get; init; }
 
     /// <summary>
     /// The time when the task was submitted.

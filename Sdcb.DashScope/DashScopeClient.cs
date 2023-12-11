@@ -45,7 +45,10 @@ public class DashScopeClient : IDisposable
     {
         HttpRequestMessage httpRequest = new(HttpMethod.Post, @"https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis")
         {
-            Content = JsonContent.Create(RequestWrapper.Create(model, prompt, parameters)),
+            Content = JsonContent.Create(RequestWrapper.Create(model, prompt, parameters), options: new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            }),
         };
         httpRequest.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await _httpClient.SendAsync(httpRequest, cancellationToken);
@@ -63,7 +66,10 @@ public class DashScopeClient : IDisposable
     {
         HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/services/aigc/image-generation/generation")
         {
-            Content = JsonContent.Create(RequestWrapper.Create(model, input))
+            Content = JsonContent.Create(RequestWrapper.Create(model, input), options: new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            })
         };
         msg.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await _httpClient.SendAsync(msg, cancellationToken);
