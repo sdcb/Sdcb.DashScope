@@ -10,15 +10,22 @@ namespace Sdcb.DashScope;
 /// </summary>
 public class DashScopeDateTimeConverter : JsonConverter<DateTime>
 {
-    private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+    private readonly string[] AllowedDateTimeFormats = 
+    [
+        "yyyy-MM-dd HH:mm:ss.fff",
+        "yyyy-MM-dd HH:mm:ss"
+    ];
 
     /// <inheritdoc/>
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? dateString = reader.GetString();
-        if (DateTime.TryParseExact(dateString, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+        foreach (string format in AllowedDateTimeFormats)
         {
-            return date;
+            if (DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+            {
+                return date;
+            }
         }
         throw new JsonException("Failed to parse datetime string.");
     }
@@ -26,6 +33,6 @@ public class DashScopeDateTimeConverter : JsonConverter<DateTime>
     /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString(DateTimeFormat, CultureInfo.InvariantCulture));
+        writer.WriteStringValue(value.ToString(AllowedDateTimeFormats[0], CultureInfo.InvariantCulture));
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Sdcb.DashScope.TrainingFiles;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ namespace Sdcb.DashScope;
 /// </summary>
 public class DashScopeClient : IDisposable
 {
-    private readonly HttpClient _httpClient = null!;
+    internal readonly HttpClient _httpClient = null!;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DashScopeClient"/> class with the specified API key.
@@ -30,7 +33,14 @@ public class DashScopeClient : IDisposable
     {
         _httpClient = httpClient ?? new HttpClient();
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+        TrainingFiles = new TrainingFilesClient(this);
     }
+
+    /// <summary>
+    /// Model customization file management service, you can manage your training files in a unified way;
+    /// a single upload allows for multiple reuses in model customization tasks.
+    /// </summary>
+    public TrainingFilesClient TrainingFiles { get; }
 
     /// <summary>
     /// Initiates an asynchronous request to generate images from text using the specified AI model.
@@ -52,7 +62,7 @@ public class DashScopeClient : IDisposable
         };
         httpRequest.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await _httpClient.SendAsync(httpRequest, cancellationToken);
-        return await ReadResponse<DashScopeTask>(resp, cancellationToken);
+        return await ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
     }
 
     /// <summary>
@@ -73,7 +83,7 @@ public class DashScopeClient : IDisposable
         };
         msg.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await _httpClient.SendAsync(msg, cancellationToken);
-        return await ReadResponse<DashScopeTask>(resp, cancellationToken);
+        return await ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
     }
 
     /// <summary>
@@ -85,7 +95,44 @@ public class DashScopeClient : IDisposable
     public async Task<TaskStatusResponse> QueryTaskStatus(string taskId, CancellationToken cancellationToken = default)
     {
         HttpResponseMessage resp = await _httpClient.GetAsync($@"https://dashscope.aliyuncs.com/api/v1/tasks/{taskId}", cancellationToken);
-        return await ReadResponse<TaskStatusResponse>(resp, cancellationToken);
+        return await ReadWrapperResponse<TaskStatusResponse>(resp, cancellationToken);
+    }
+
+    /// <summary>
+    /// <para>Detects whether the faces in the uploaded images meet the required standards for facechain fine-tuning.</para>
+    /// <para>The detection dimensions include the number of faces, size, angle, illumination, clarity, etc.</para>
+    /// <para>This model is not a mandatory step in the task flow and can be integrated as per business needs.</para>
+    /// </summary>
+    /// <param name="imageUrls">
+    /// A string array of image URLs with the following specifications:
+    /// <list type="bullet">
+    /// <item>- Resolution between 256*256 and 4096*4096 pixels.</item>
+    /// <item>- File size is no more than 5MB.</item>
+    /// <item>- Supported formats: JPEG, PNG, JPG, WEBP.</item>
+    /// </list>
+    /// <para>The images should contain exactly one face; multi-face or no-face images are not supported.</para>
+    /// <para>Face quality should preferably be a frontal face, larger than 128*128 pixels, with no obstructions such as sunglasses or hands, and without heavy makeup or excessive beautification.</para>
+    /// <para>The image should not have complex lighting or shadows.</para>
+    /// </param>
+    /// <param name="model">The model parameter defines which model to use for detection, fixed to 'facechain-facedetect'.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    /// <returns>An array of boolean values indicating whether each image meets the face detection criteria.</returns>
+    public async Task<bool[]> FaceChainCheckImage(string[] imageUrls, string model = "facechain-facedetect", CancellationToken cancellationToken = default)
+    {
+        HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/services/vision/facedetection/detect")
+        {
+            Content = JsonContent.Create(RequestWrapper.Create(model, new { images = imageUrls }), options: new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            })
+        };
+        HttpResponseMessage resp = await _httpClient.SendAsync(msg, cancellationToken);
+        JsonElement result = await ReadWrapperResponse<JsonElement>(resp, cancellationToken);
+        return result
+            .GetProperty("is_face")
+            .EnumerateArray()
+            .Select(x => x.GetBoolean())
+            .ToArray();
     }
 
     /// <summary>
@@ -93,7 +140,12 @@ public class DashScopeClient : IDisposable
     /// </summary>
     public void Dispose() => _httpClient.Dispose();
 
-    private async Task<T> ReadResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
+    internal async Task<T> ReadWrapperResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
+    {
+        return (await ReadResponse<ResponseWrapper<T>>(response, cancellationToken)).Output;
+    }
+
+    internal async Task<T> ReadResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
         if (!response.IsSuccessStatusCode)
         {
@@ -102,7 +154,7 @@ public class DashScopeClient : IDisposable
 
         try
         {
-            return (await response.Content.ReadFromJsonAsync<ResponseWrapper<T>>(options: null, cancellationToken))!.Output;
+            return (await response.Content.ReadFromJsonAsync<T>(options: null, cancellationToken))!;
         }
         catch (Exception e) when (e is NotSupportedException or JsonException)
         {

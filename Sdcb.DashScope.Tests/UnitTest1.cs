@@ -107,4 +107,16 @@ public class UnitTest1
             }
         }
     }
+
+    [Fact]
+    public async Task FaceChainCheckImageTest()
+    {
+        string[] urls =
+        [
+            "https://io.starworks.cc:88/cv-public/2023/1317141.jpg",
+        ];
+        DashScopeClient c = new(_apiKey);
+        bool[] oks = await c.FaceChainCheckImage(urls);
+        _console.WriteLine(string.Join(",", oks));
+    }
 }
