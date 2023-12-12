@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Sdcb.DashScope;
+namespace Sdcb.DashScope.WanXiang;
 
 /// <summary>
 /// Contains the specific input details for a style replication request.

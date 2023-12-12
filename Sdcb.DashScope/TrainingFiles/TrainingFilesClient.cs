@@ -49,7 +49,7 @@ public class TrainingFilesClient
             }
         }
 
-        HttpResponseMessage resp = await Parent._httpClient.PostAsync("https://dashscope.aliyuncs.com/api/v1/files", formData);
+        HttpResponseMessage resp = await Parent.HttpClient.PostAsync("https://dashscope.aliyuncs.com/api/v1/files", formData);
         return await ReadWrapperResponse<UploadedResponse>(resp, cancellationToken);
     }
 
@@ -62,7 +62,7 @@ public class TrainingFilesClient
     /// <returns>Returns a <see cref="PaginatedFiles"/> object containing the current list of TrainingFiles.</returns>
     public async Task<PaginatedFiles> List(int pageNo = 1, int pageSize = 10, CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage resp = await Parent._httpClient.GetAsync($"https://dashscope.aliyuncs.com/api/v1/files?page_no={pageNo}&page_size={pageSize}", cancellationToken);
+        HttpResponseMessage resp = await Parent.HttpClient.GetAsync($"https://dashscope.aliyuncs.com/api/v1/files?page_no={pageNo}&page_size={pageSize}", cancellationToken);
         PaginatedFiles result = await ReadWrapperResponse<PaginatedFiles>(resp, cancellationToken);
         return result;
     }
@@ -76,7 +76,7 @@ public class TrainingFilesClient
 
     public async Task<TrainingFileInfo> GetFileInfo(string fileId, CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage resp = await Parent._httpClient.GetAsync($"https://dashscope.aliyuncs.com/api/v1/files/{fileId}", cancellationToken);
+        HttpResponseMessage resp = await Parent.HttpClient.GetAsync($"https://dashscope.aliyuncs.com/api/v1/files/{fileId}", cancellationToken);
         TrainingFileInfo result = await ReadWrapperResponse<TrainingFileInfo>(resp, cancellationToken);
         return result;
     }
@@ -88,7 +88,7 @@ public class TrainingFilesClient
     /// <param name="cancellationToken">Optional. A token to cancel the asynchronous operation.</param>
     public async Task Delete(string fileId, CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage resp = await Parent._httpClient.DeleteAsync($"https://dashscope.aliyuncs.com/api/v1/files/{fileId}", cancellationToken);
+        HttpResponseMessage resp = await Parent.HttpClient.DeleteAsync($"https://dashscope.aliyuncs.com/api/v1/files/{fileId}", cancellationToken);
         await Parent.ReadResponse<JsonDocument>(resp, cancellationToken);
     }
 
