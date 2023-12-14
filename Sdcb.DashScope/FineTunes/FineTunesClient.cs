@@ -11,6 +11,9 @@ using System.Text.Json.Serialization;
 
 namespace Sdcb.DashScope.FineTunes;
 
+/// <summary>
+/// DashScope client for fine-tuning models.
+/// </summary>
 public class FineTunesClient
 {
     internal FineTunesClient(DashScopeClient client)
@@ -28,7 +31,7 @@ public class FineTunesClient
     /// <param name="hyperParameters">A dictionary representing the hyperparameters for model customization. If null, the system will use default values.</param>
     /// <param name="cancellationToken">A token that may be used to cancel the asynchronous request.</param>
     /// <returns>an asynchronous <see cref="FineTuneJob"/> representing the initiated fine-tune job.</returns>
-    public async Task<FineTuneJob> FineTunes(string[] fileIds, string model, Dictionary<string, object>? hyperParameters = null, CancellationToken cancellationToken = default)
+    public async Task<FineTuneJob> StartFineTune(string[] fileIds, string model, Dictionary<string, object>? hyperParameters = null, CancellationToken cancellationToken = default)
     {
         HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/fine-tunes")
         {

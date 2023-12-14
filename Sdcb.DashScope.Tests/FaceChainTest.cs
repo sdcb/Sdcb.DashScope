@@ -33,4 +33,10 @@ public class FaceChainTest
         bool[] oks = await c.FaceChains.CheckImage(urls);
         _console.WriteLine(string.Join(",", oks));
     }
+
+    [Fact]
+    public async Task StartFineTuneTest()
+    {
+
+    }
 }

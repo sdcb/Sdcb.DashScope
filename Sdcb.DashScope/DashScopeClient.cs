@@ -1,4 +1,5 @@
 ﻿using Sdcb.DashScope.FaceChains;
+using Sdcb.DashScope.FineTunes;
 using Sdcb.DashScope.StableDiffusion;
 using Sdcb.DashScope.TrainingFiles;
 using Sdcb.DashScope.WanXiang;
@@ -40,6 +41,7 @@ public class DashScopeClient : IDisposable
         FaceChains = new FaceChainsClient(this);
         StableDiffusion = new StableDiffusionClient(this);
         WanXiang = new WanXiangClient(this);
+        FineTunes = new FineTunesClient(this);
     }
 
     /// <summary>
@@ -69,6 +71,11 @@ public class DashScopeClient : IDisposable
     /// offering a range of image generation capabilities.
     /// </summary>
     public WanXiangClient WanXiang { get; }
+
+    /// <summary>
+    /// DashScope client for fine-tuning models.
+    /// </summary>
+    public FineTunesClient FineTunes { get; }
 
     /// <summary>
     /// Queries the status of a task using the specified task ID.
