@@ -99,7 +99,7 @@ public class DashScopeClient : IDisposable
         return (await ReadResponse<ResponseWrapper<T>>(response, cancellationToken)).Output;
     }
 
-    internal async Task<T> ReadResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
+    internal static async Task<T> ReadResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
         if (!response.IsSuccessStatusCode)
         {
@@ -108,6 +108,7 @@ public class DashScopeClient : IDisposable
 
         try
         {
+            var debug = await response.Content.ReadAsStringAsync();
             return (await response.Content.ReadFromJsonAsync<T>(options: null, cancellationToken))!;
         }
         catch (Exception e) when (e is NotSupportedException or JsonException)

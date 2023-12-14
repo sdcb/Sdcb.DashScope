@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Sdcb.DashScope.FineTunes;
 
@@ -8,14 +9,26 @@ namespace Sdcb.DashScope.FineTunes;
 public record FineTuneJob
 {
     /// <summary>
-    /// Gets the unique identifier of the custom job created by the request.
+    /// The task ID of the fine tune job.
     /// </summary>
     [JsonPropertyName("job_id")]
     public required string JobId { get; init; }
 
     /// <summary>
-    /// Gets the status of the custom job created by the request.
+    ///  The status of the fine tune job.
     /// </summary>
     [JsonPropertyName("status")]
     public required string Status { get; init; }
+
+    /// <summary>
+    /// Gets the training type of the custom job created by the request.
+    /// </summary>
+    [JsonPropertyName("training_type")]
+    public required string TrainingType { get; init; }
+
+    /// <summary>
+    /// Gets the create time of the custom job created by the request.
+    /// </summary>
+    [JsonPropertyName("create_time"), JsonConverter(typeof(DashScopeDateTimeConverter))]
+    public DateTime CreateTime { get; init; }
 }

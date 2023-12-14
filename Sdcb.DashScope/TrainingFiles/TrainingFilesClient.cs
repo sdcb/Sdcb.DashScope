@@ -89,11 +89,11 @@ public class TrainingFilesClient
     public async Task Delete(string fileId, CancellationToken cancellationToken = default)
     {
         HttpResponseMessage resp = await Parent.HttpClient.DeleteAsync($"https://dashscope.aliyuncs.com/api/v1/files/{fileId}", cancellationToken);
-        await Parent.ReadResponse<JsonDocument>(resp, cancellationToken);
+        await DashScopeClient.ReadResponse<JsonDocument>(resp, cancellationToken);
     }
 
     internal async Task<T> ReadWrapperResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
-        return (await Parent.ReadResponse<TrainingFilesResponseWrapper<T>>(response, cancellationToken)).Data;
+        return (await DashScopeClient.ReadResponse<TrainingFilesResponseWrapper<T>>(response, cancellationToken)).Data;
     }
 }

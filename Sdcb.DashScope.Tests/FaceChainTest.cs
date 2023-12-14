@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Sdcb.DashScope.FineTunes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 
@@ -35,8 +37,18 @@ public class FaceChainTest
     }
 
     [Fact]
-    public async Task StartFineTuneTest()
+    public async Task CreateFineTuneJobTest()
     {
+        DashScopeClient c = new(_apiKey);
+        FineTuneJob job = await c.FineTunes.StartFineTune(["47b086cb-702c-4f78-9e71-162c2d4ebf6e"], "facechain-finetune");
+        _console.WriteLine(JsonSerializer.Serialize(job));
+    }
 
+    [Fact]
+    public async Task GetFineTuneJobStatusTest()
+    {
+        DashScopeClient c = new(_apiKey);
+        FineTuneJobDetailed resp = await c.FineTunes.GetJobStatus("ft-202312141750-3225");
+        _console.WriteLine(JsonSerializer.Serialize(resp));
     }
 }

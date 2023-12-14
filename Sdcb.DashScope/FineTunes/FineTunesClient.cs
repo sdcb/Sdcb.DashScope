@@ -48,4 +48,16 @@ public class FineTunesClient
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
         return await Parent.ReadWrapperResponse<FineTuneJob>(resp, cancellationToken);
     }
+
+    /// <summary>
+    /// Queries the status of a model fine-tuning task, and retrieves the results of the task upon completion.
+    /// </summary>
+    /// <param name="jobId">The identifier of the job to query. Example: "ft-202308291948-edc2"</param>
+    /// <param name="cancellationToken">A token to cancel the operation, if needed.</param>
+    /// <returns>The status of the fine-tuning job.</returns>
+    public async Task<FineTuneJobDetailed> GetJobStatus(string jobId, CancellationToken cancellationToken = default)
+    {
+        HttpResponseMessage resp = await Parent.HttpClient.GetAsync($@"https://dashscope.aliyuncs.com/api/v1/fine-tunes/{jobId}", cancellationToken);
+        return await Parent.ReadWrapperResponse<FineTuneJobDetailed>(resp, cancellationToken);
+    }
 }
