@@ -74,7 +74,7 @@ public class UnitTest1
             Prompt = "standing, ultra detailed, official art, 4k 8k wallpaper, soft light and shadow, hand detail, eye high detail, 8K, (best quality:1.5), pastel color, soft focus, masterpiece, studio, hair high detail, (pure background:1.2), (head fully visible, full body shot)",
             NegativePrompt = "EasyNegative, nsfw,(low quality, worst quality:1.4),lamp, missing shoe, missing head,mutated hands and fingers,deformed,bad anatomy,extra limb,ugly,poorly drawn hands,disconnected limbs,missing limb,missing head,camera"
         };
-        DashScopeTask task = await c.WanXiang.Text2Image(prompt);
+        DashScopeTask task = await c.WanXiang.Text2Image(prompt, new Text2ImageParams { Style = "Pixel Art", N = 4 });
         _console.WriteLine(task.TaskId);
 
         while (true)
@@ -116,7 +116,7 @@ public class UnitTest1
     {
         using DashScopeClient c = new(_apiKey);
         DashScopeTask task = await c.WanXiang.StyleReplicate(new StyleReplicationInput()
-        { 
+        {
             ImageUrl = "https://avatars.githubusercontent.com/u/1317141",
             Style = RepliationStyle.FreshAndClean,
         });

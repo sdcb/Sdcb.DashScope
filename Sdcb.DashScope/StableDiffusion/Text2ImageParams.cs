@@ -40,14 +40,24 @@ public record Text2ImageParams
     /// <summary>
     /// The style of generated images, allowed values:
     /// <list type="bullet">
-    /// <item>"&lt;auto&gt;" - default - 默认</item>
-    /// <item>"&lt;3d cartoon&gt;" - 3d cartoon - 3D卡通</item>
-    /// <item>"&lt;anime&gt;" - anime - 动画</item>
-    /// <item>"&lt;oil painting&gt;" - oil painting - 油画</item>
-    /// <item>"&lt;watercolor&gt;" - watercolor - 水彩</item>
-    /// <item>"&lt;sketch&gt;" - sketch - 素描</item>
-    /// <item>"&lt;chinese painting&gt;" - chinese painting - 中国画</item>
-    /// <item>"&lt;flat illustration&gt;" - flat illustration - 扁平插画</item>
+    /// <item>"&lt;auto&gt;" - auto - 自动</item>
+    /// <item>"Enhance" - enhance - 增强</item>
+    /// <item>"Anime" - anime - 动漫</item>
+    /// <item>"Photographic" - photographic - 摄影</item>
+    /// <item>"Digital Art" - digital art - 数字艺术</item>
+    /// <item>"Comic Book" - comic book - 漫画书</item>
+    /// <item>"Fantasy Art" - fantasy art - 幻想艺术</item>
+    /// <item>"Analog Film" - analog film - 胶片</item>
+    /// <item>"Neon Punk" - neon punk - 霓虹朋克</item>
+    /// <item>"Isometric" - isometric - 等距</item>
+    /// <item>"Low Poly" - low poly - 低多边形</item>
+    /// <item>"Origami" - origami - 折纸</item>
+    /// <item>"Line Art" - line art - 线条艺术</item>
+    /// <item>"Craft Clay" - craft clay - 彩泥工艺</item>
+    /// <item>"Cinematic" - cinematic - 电影的</item>
+    /// <item>"3D Model" - 3d model - 三维模型</item>
+    /// <item>"Pixel Art" - pixel art - 像素艺术</item>
+    /// <item>"Texture" - texture - 纹理</item>
     /// </list>
     /// </summary>
     /// <remarks>
