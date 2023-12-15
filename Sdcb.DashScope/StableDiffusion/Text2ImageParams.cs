@@ -14,6 +14,9 @@ public record Text2ImageParams
     /// For "stable-diffusion-xl", allowed values are combinations of width and height between 512 and 1024 in increments of 128 (e.g., "512*1024", "1024*768"),
     /// The default value is "1024*1024".
     /// </para>
+    /// <para>
+    /// For WanXiang, allowed values: 1024*1024, 720*1280, 1280*720
+    /// </para>
     /// </summary>
     [JsonPropertyName("size")]
     public string? Size { get; init; }
@@ -30,8 +33,28 @@ public record Text2ImageParams
     /// More steps generally result in higher image quality but slower inference time.
     /// The default value is 50, and users can adjust it between 1 and 500.
     /// </summary>
+    /// <remarks>This options is only available in StableDiffusion API.</remarks>
     [JsonPropertyName("steps")]
     public int? Steps { get; init; }
+
+    /// <summary>
+    /// The style of generated images, allowed values:
+    /// <list type="bullet">
+    /// <item>"&lt;auto&gt;" - default - 默认</item>
+    /// <item>"&lt;3d cartoon&gt;" - 3d cartoon - 3D卡通</item>
+    /// <item>"&lt;anime&gt;" - anime - 动画</item>
+    /// <item>"&lt;oil painting&gt;" - oil painting - 油画</item>
+    /// <item>"&lt;watercolor&gt;" - watercolor - 水彩</item>
+    /// <item>"&lt;sketch&gt;" - sketch - 素描</item>
+    /// <item>"&lt;chinese painting&gt;" - chinese painting - 中国画</item>
+    /// <item>"&lt;flat illustration&gt;" - flat illustration - 扁平插画</item>
+    /// </list>
+    /// </summary>
+    /// <remarks>
+    /// This option is only available in WanXiang text-to-image request.
+    /// </remarks>
+    [JsonPropertyName("style")]
+    public string? Style { get; init; }
 
     /// <summary>
     /// The scale parameter influencing how closely the generated image adheres to the input prompt.

@@ -27,7 +27,6 @@ public class StableDiffusionClient
     /// <param name="model">The name of the model to use for image generation. Allowed values are "stable-diffusion-xl" or "stable-diffusion-v1.5".</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the request.</param>
     /// <returns>A Task representing the asynchronous operation that returns a <see cref="DashScopeTask"/> which contains information about the generation task.</returns>
-
     public async Task<DashScopeTask> Text2Image(Text2ImagePrompt prompt, Text2ImageParams? parameters = null, string model = "stable-diffusion-xl", CancellationToken cancellationToken = default)
     {
         HttpRequestMessage httpRequest = new(HttpMethod.Post, @"https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis")
