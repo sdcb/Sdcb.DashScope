@@ -5,7 +5,7 @@ namespace Sdcb.DashScope;
 /// <summary>
 /// Additional information regarding the resource usage of the task.
 /// </summary>
-public class TaskUsage
+public class ImageTaskUsage
 {
     /// <summary>
     /// Image count

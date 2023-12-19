@@ -1,6 +1,7 @@
 ﻿using Sdcb.DashScope.FaceChains;
 using Sdcb.DashScope.FineTunes;
 using Sdcb.DashScope.StableDiffusion;
+using Sdcb.DashScope.TextGeneration;
 using Sdcb.DashScope.TrainingFiles;
 using Sdcb.DashScope.WanXiang;
 using System;
@@ -42,6 +43,7 @@ public class DashScopeClient : IDisposable
         StableDiffusion = new StableDiffusionClient(this);
         WanXiang = new WanXiangClient(this);
         FineTunes = new FineTunesClient(this);
+        TextGeneration = new TextGenerationClient(this);
     }
 
     /// <summary>
@@ -78,6 +80,11 @@ public class DashScopeClient : IDisposable
     public FineTunesClient FineTunes { get; }
 
     /// <summary>
+    /// LLM models clients that supports Qwen/open source LLMs.
+    /// </summary>
+    public TextGenerationClient TextGeneration { get; }
+
+    /// <summary>
     /// Queries the status of a task using the specified task ID.
     /// </summary>
     /// <param name="taskId">The ID of the task to query.</param>
@@ -96,7 +103,7 @@ public class DashScopeClient : IDisposable
 
     internal async Task<T> ReadWrapperResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
-        return (await ReadResponse<ResponseWrapper<T>>(response, cancellationToken)).Output;
+        return (await ReadResponse<ResponseWrapper<T, ImageTaskUsage>>(response, cancellationToken)).Output;
     }
 
     internal static async Task<T> ReadResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
