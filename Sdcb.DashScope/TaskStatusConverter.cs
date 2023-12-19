@@ -6,7 +6,7 @@ namespace Sdcb.DashScope;
 
 /// <summary>
 /// Converter class for the Enum Type <see cref="DashScopeTaskStatus"/>. It provides the custom serialization and deserialization logic
-/// from `TaskStatus` to json and from json to `TaskStatus`.
+/// from `<see cref="DashScopeTaskStatus"/>` to json and from json to `<see cref="DashScopeTaskStatus"/>`.
 /// </summary>
 public class TaskStatusConverter : JsonConverter<DashScopeTaskStatus>
 {
@@ -14,7 +14,7 @@ public class TaskStatusConverter : JsonConverter<DashScopeTaskStatus>
     public override DashScopeTaskStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString();
-        if (Enum.TryParse<DashScopeTaskStatus>(value, true, out var status))
+        if (Enum.TryParse(value, true, out DashScopeTaskStatus status))
         {
             return status;
         }
