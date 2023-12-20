@@ -76,7 +76,7 @@ public class FaceChainsClient
     /// </remarks>
     public async Task<DashScopeTask> GeneratePortrait(GeneratePortraitRequest request, CancellationToken cancellationToken = default)
     {
-        HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/services/vision/facedetection/detect")
+        HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/services/aigc/album/gen_potrait")
         {
             Content = JsonContent.Create(new
             {
@@ -87,16 +87,20 @@ public class FaceChainsClient
                     size = request.Size,
                     n = request.N,
                 },
-                resources = new
+                resources = new[]
                 {
-                    resource_id = request.ResourceId,
-                    resource_type = "facelora",
+                    new
+                    {
+                        resource_id = request.ResourceId,
+                        resource_type = "facelora",
+                    }
                 }
             }, options: new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             })
         };
+        msg.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
         DashScopeTask result = await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
         return result;
