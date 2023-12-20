@@ -63,4 +63,42 @@ public class FaceChainsClient
             .ToArray();
     }
 
+    /// <summary>
+    /// Generates a portrait using DashScope's facechain service.
+    /// </summary>
+    /// <param name="request">The request containing details such as style, size, and resource information for generating the portrait.</param>
+    /// <param name="cancellationToken">An optional cancellation token to cancel the request.</param>
+    /// <returns>a <see cref="DashScopeTask"/> object that holds details of the asynchronous operation.</returns>
+    /// <exception cref="System.Net.Http.HttpRequestException">Thrown when an error occurs during the HTTP request.</exception>
+    /// <remarks>
+    /// This method posts a request to the DashScope face detection API and returns a task representing the operation.
+    /// The returned <see cref="DashScopeTask"/> contains information that can be used to track the progress or result of the operation.
+    /// </remarks>
+    public async Task<DashScopeTask> GeneratePortrait(GeneratePortraitRequest request, CancellationToken cancellationToken = default)
+    {
+        HttpRequestMessage msg = new(HttpMethod.Post, "https://dashscope.aliyuncs.com/api/v1/services/vision/facedetection/detect")
+        {
+            Content = JsonContent.Create(new
+            {
+                model = "facechain-generation",
+                parameters = new
+                {
+                    style = request.Style, 
+                    size = request.Size,
+                    n = request.N,
+                },
+                resources = new
+                {
+                    resource_id = request.ResourceId,
+                    resource_type = "facelora",
+                }
+            }, options: new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            })
+        };
+        HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
+        DashScopeTask result = await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
+        return result;
+    }
 }

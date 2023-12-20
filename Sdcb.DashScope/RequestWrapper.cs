@@ -5,10 +5,10 @@ namespace Sdcb.DashScope;
 
 internal record RequestWrapper
 {
-    public static RequestWrapper<TInput, TParameters> Create<TInput, TParameters>(string model, TInput inputPrompt, TParameters? parameters = default) => new()
+    public static RequestWrapper<TInput, TParameters> Create<TInput, TParameters>(string model, TInput input, TParameters? parameters = default) => new()
     {
         Model = model ?? throw new ArgumentNullException(nameof(model)),
-        Input = inputPrompt ?? throw new ArgumentNullException(nameof(inputPrompt)),
+        Input = input ?? throw new ArgumentNullException(nameof(input)),
         Parameters = parameters,
     };
 
