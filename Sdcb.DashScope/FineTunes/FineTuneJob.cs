@@ -18,7 +18,7 @@ public record FineTuneJob
     ///  The status of the fine tune job.
     /// </summary>
     [JsonPropertyName("status")]
-    public required DashScopeTaskStatus Status { get; init; }
+    public required FineTuneJobStatus Status { get; init; }
 
     /// <summary>
     /// Gets the training type of the custom job created by the request.
