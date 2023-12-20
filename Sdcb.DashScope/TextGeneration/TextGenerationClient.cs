@@ -28,7 +28,31 @@ public class TextGenerationClient
     /// <summary>
     /// Sends a chat interaction to the DashScope large language model and returns a response.
     /// </summary>
-    /// <param name="model">The specified model identifier for processing the chat interaction.</param>
+    /// <param name="model">
+    /// The specified model identifier for processing the chat interaction, known values:
+    /// <list type="bullet">
+    /// <item>
+    /// Qwen series, options:
+    /// <list type="bullet">
+    /// <item>qwen-turbo</item>
+    /// <item>qwen-plus</item>
+    /// <item>qwen-max</item>
+    /// <item>qwen-max-1201</item>
+    /// <item>qwen-max-longcontext</item>
+    /// </list>
+    /// </item>
+    /// <item>
+    /// Qwen open source series, options:
+    /// <list type="bullet">
+    /// <item>qwen-72b-chat</item>
+    /// <item>qwen-14b-chat</item>
+    /// <item>qwen-7b-chat</item>
+    /// <item>qwen-1.8b-longcontext-chat</item>
+    /// <item>qwen-1.8b-chat</item>
+    /// </list>
+    /// </item>
+    /// </list>
+    /// </param>
     /// <param name="messages">A read-only list of chat messages representing the conversation history.</param>
     /// <param name="parameters">Optional parameters to customize the chat behavior.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -67,6 +91,8 @@ public class TextGenerationClient
     /// <item>qwen-max-1201</item>
     /// <item>qwen-max-longcontext</item>
     /// </list>
+    /// </item>
+    /// <item>
     /// Qwen open source series, options:
     /// <list type="bullet">
     /// <item>qwen-72b-chat</item>

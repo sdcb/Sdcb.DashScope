@@ -1,20 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Sdcb.DashScope.TextGeneration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace Sdcb.DashScope.Tests;
 
-public class ChatClient
+public class ChatClientTest
 {
     private readonly string _apiKey;
     private readonly ITestOutputHelper _console;
 
-    public ChatClient(ITestOutputHelper console)
+    public ChatClientTest(ITestOutputHelper console)
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .AddUserSecrets<UnitTest1>()
@@ -60,5 +56,44 @@ public class ChatClient
         {
             _console.WriteLine(item.ToString());
         }
+    }
+
+    [Fact]
+    public async Task FastChatStreamedIncremental()
+    {
+        using DashScopeClient c = new(_apiKey);
+        ChatMessage msg = ChatMessage.FromUser("湖南省的省会是？请使用JSON字符串表示，不需要其它输出信息");
+        StringBuilder sb = new();
+        await foreach (ResponseWrapper<ChatOutput, ChatTokenUsage> item in c.TextGeneration.ChatStreamed("qwen-turbo", [msg], new()
+        {
+            IncrementalOutput = true
+        }))
+        {
+            if (item.Output.FinishReason == "stop") break;
+            sb.Append(item.Output.Text);
+        }
+        _console.WriteLine(sb.ToString());
+    }
+
+    [Fact]
+    public async Task FastChatStreamedOnline()
+    {
+        using DashScopeClient c = new(_apiKey);
+        ChatMessage msg = ChatMessage.FromUser("长沙今天天气如何？");
+        string finalResult = null!;
+        await foreach (ResponseWrapper<ChatOutput, ChatTokenUsage> item in c.TextGeneration.ChatStreamed("qwen-turbo", [msg], new()
+        {
+            EnableSearch = true,
+        }))
+        {
+            _console.WriteLine(item.Output.Text);
+            if (item.Output.FinishReason == "stop")
+            {
+                finalResult = item.Output.Text;
+                break;
+            }
+        }
+        _console.WriteLine($"最终结果：");
+        _console.WriteLine(finalResult);
     }
 }
