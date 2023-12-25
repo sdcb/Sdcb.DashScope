@@ -9,10 +9,10 @@ public record ChatParameters
 {
     /// <summary>
     /// Format of the result - "text" for old text version, "message" for OpenAI compatible message.
-    /// <para>This field is fixed to "text" in Sdcb.DashScope</para>
+    /// <para>This field must be "text" in for language model, not been used in VL model.</para>
     /// </summary>
     [JsonPropertyName("result_format")]
-    public string ResultFormat { get; } = "text";
+    public string? ResultFormat { get; set; }
 
     /// <summary>
     /// Seed for the random number generator to control the randomness of the model's generation.

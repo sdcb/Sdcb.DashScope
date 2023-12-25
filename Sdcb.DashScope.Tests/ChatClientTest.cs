@@ -59,6 +59,20 @@ public class ChatClientTest
     }
 
     [Fact]
+    public void FastChatEmpty()
+    {
+        using DashScopeClient c = new(_apiKey);
+        Assert.Throws<DashScopeException>(() => c.TextGeneration.Chat("qwen-turbo", [ChatMessage.FromUser("")]).GetAwaiter().GetResult());
+    }
+
+    [Fact]
+    public void FastChatStreamedEmpty()
+    {
+        using DashScopeClient c = new(_apiKey);
+        Assert.Throws<DashScopeException>(() => c.TextGeneration.ChatStreamed("qwen-turbo", [ChatMessage.FromUser("")]).ToBlockingEnumerable().ToList());
+    }
+
+    [Fact]
     public async Task FastChatStreamedIncremental()
     {
         using DashScopeClient c = new(_apiKey);
