@@ -10,9 +10,13 @@
 
 ## 完成情况
 
-* [x] 通义千问
-* [x] 通义千问开源模型
-* [x] 通义千问VL
+* [x] 通义千问 qwen-turbo/plus/max/max-1201/max-longcontext
+* [x] 通义千问开源模型 qwen-72b-chat/14b/7b/1.8b
+* [x] 通义千问VL qwen-vl-plus
+* [ ] 通用文本向量 text-embedding-v1/v2
+  * [x] 同步
+  * [ ] 异步
+* [ ] WordArt锦书
 * [x] Stable Diffusion
 * [ ] 通义万像
   * [x] 文本生成图像API wanx-v1 
@@ -24,3 +28,6 @@
   * [x] 获取单个文件信息
   * [x] 删除文件
 * [x] FaceChain
+  * [x] face-detect
+  * [x] finetune
+  * [x] generation

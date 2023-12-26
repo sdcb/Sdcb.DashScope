@@ -1,23 +1,18 @@
 ﻿using Sdcb.DashScope.FaceChains;
 using Sdcb.DashScope.FineTunes;
 using Sdcb.DashScope.StableDiffusion;
+using Sdcb.DashScope.TextEmbedding;
 using Sdcb.DashScope.TextGeneration;
 using Sdcb.DashScope.TrainingFiles;
 using Sdcb.DashScope.WanXiang;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace Sdcb.DashScope;
 
@@ -44,6 +39,7 @@ public class DashScopeClient : IDisposable
         WanXiang = new WanXiangClient(this);
         FineTunes = new FineTunesClient(this);
         TextGeneration = new TextGenerationClient(this);
+        TextEmbedding = new TextEmbeddingClient(this);
     }
 
     /// <summary>
@@ -83,6 +79,11 @@ public class DashScopeClient : IDisposable
     /// LLM models clients that supports Qwen/open source LLMs.
     /// </summary>
     public TextGenerationClient TextGeneration { get; }
+
+    /// <summary>
+    /// Text embedding client.
+    /// </summary>
+    public TextEmbeddingClient TextEmbedding { get; }
 
     /// <summary>
     /// Queries the status of a task using the specified task ID.

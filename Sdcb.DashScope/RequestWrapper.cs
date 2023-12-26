@@ -19,7 +19,7 @@ internal record RequestWrapper
     };
 }
 
-internal record RequestWrapper<TInput, TParameters>
+internal record RequestWrapper<TInput, TParameters> : RequestWrapper
 {
     [JsonPropertyName("model")]
     public required string Model { get; set; }
