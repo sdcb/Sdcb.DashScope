@@ -63,6 +63,9 @@ public record ChatVLMessage
     [JsonPropertyName("content")]
     public required ContentItem[] Content { get; set; }
 
+    /// <summary>
+    /// Returns the content of <c>"<see cref="Role"/>: <see cref="Content"/>(joined by ',')"</c>.
+    /// </summary>
     public override string ToString()
     {
         return $"{Role}: {string.Join("\n", Content.Select(x => x.ToString()))}";
