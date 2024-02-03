@@ -30,32 +30,52 @@ public record StyleReplicationInput
 public enum RepliationStyle
 {
     /// <summary>
-    /// Retro Comic style.
+    /// Retro Comic style. (复古漫画)
     /// </summary>
     RetroComic = 0,
 
     /// <summary>
-    /// 3D Fairy Tale style.
+    /// 3D Fairy Tale style. (3D童话)
     /// </summary>
-    _3DFairyTale,
+    _3DFairyTale = 1,
 
     /// <summary>
-    /// Anime style.
+    /// Anime style. (二次元)
     /// </summary>
-    Anime,
+    Anime = 2,
 
     /// <summary>
     /// Fresh and Clean (小清新) style.
     /// </summary>
-    FreshAndClean,
+    FreshAndClean = 3,
 
     /// <summary>
-    /// Future Tech style.
+    /// Future Tech style. (未来科技)
     /// </summary>
-    FutureTech,
+    FutureTech = 4,
 
     /// <summary>
-    /// 3D Realism style.
+    /// Traditional Chinese painting style. (国画古风)
     /// </summary>
-    _3DRealism
+    TraditionalChinese = 5,
+
+    /// <summary>
+    /// General in War style. (将军百战)
+    /// </summary>
+    GeneralInWar = 6,
+
+    /// <summary>
+    /// Colorful Cartoon style. (炫彩卡通)
+    /// </summary>
+    ColorfulCartoon = 7,
+
+    /// <summary>
+    /// Elegant and Traditional (清雅国风) style.
+    /// </summary>
+    ElegantTraditional = 8,
+
+    /// <summary>
+    /// Happy New Year style. (喜迎新年)
+    /// </summary>
+    HappyNewYear = 9
 }
