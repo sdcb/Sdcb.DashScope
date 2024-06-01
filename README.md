@@ -3,6 +3,10 @@
 为阿里云灵积模型服务DashScope开发的非官方.NET SDK
 ![icon](https://raw.githubusercontent.com/sdcb/Sdcb.DashScope/master/icon.png)
 
+## Demo
+
+可以在[这里](https://qwen.starworks.cc:88/)找到一个使用本SDK的在线Demo，源码在[这里](https://github.com/sdcb/Sdcb.DashScope/blob/master/Sdcb.DashScope.Gradio/Program.cs)。
+
 ## NuGet包
 | Package                                | Version 📌                                                                                                                                                | Description                  |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
