@@ -5,47 +5,42 @@ using Sdcb.DashScope;
 using System.Data.SqlClient;
 using DashScopeChatMessage = Sdcb.DashScope.TextGeneration.ChatMessage;
 
-void Main()
-{
-    WebApplicationBuilder builder = WebApplication.CreateBuilder();
-    //builder.Logging.ClearProviders();
-    builder.Services.AddHttpContextAccessor();
-    builder.Services.AddGradio();
-    WebApplication webApplication = builder.Build();
-    IServiceProvider sp = webApplication.Services.GetRequiredService<IServiceProvider>();
-    webApplication.UseGradio(CreateBlocks(sp));
-    webApplication.Run();
-}
-Main();
+WebApplicationBuilder builder = WebApplication.CreateBuilder();
+//builder.Logging.ClearProviders();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddGradio();
+WebApplication webApplication = builder.Build();
+IServiceProvider sp = webApplication.Services.GetRequiredService<IServiceProvider>();
+webApplication.UseGradio(CreateBlocks(sp));
+webApplication.Run();
 
 static Blocks CreateBlocks(IServiceProvider sp)
 {
 
     using Blocks blocks = gr.Blocks();
     Button sendButton, resetButton, regenerateButton;
-    Textbox systemPrompt, userInput;
-    Chatbot chatBot;
-    Radio model;
+    Textbox systemPrompt;
 
     gr.Markdown("# 通义千问开源模型");
-    model = gr.Radio(["qwen1.5-110b-chat", "qwen1.5-72b-chat", "qwen1.5-32b-chat", "qwen1.5-14b-chat", "qwen1.5-7b-chat", "qwen1.5-1.8b-chat", "qwen1.5-0.5b-chat", "codeqwen1.5-7b-chat"], label: "选择模型", value: "qwen1.5-110b-chat");
+    string[] knownModels = ["qwen1.5-110b-chat", "qwen1.5-72b-chat", "qwen1.5-32b-chat", "qwen1.5-14b-chat", "qwen1.5-7b-chat", "qwen1.5-1.8b-chat", "qwen1.5-0.5b-chat", "codeqwen1.5-7b-chat"];
+    Dropdown model;
+
     using (gr.Row())
     {
-        using (gr.Column(9))
-        {
-            systemPrompt = gr.Textbox("你是通义千问模型版本{model}，请仔细遵循用户指令，用markdown回复，当前日期：{date}", label: "系统Prompt");
-        }
-        resetButton = gr.Button("🔄重置聊天", variant: ButtonVariant.Stop);
+        model = gr.Dropdown(knownModels, knownModels[0], label: "模型选择");
+        systemPrompt = gr.Textbox("你是通义千问模型版本{model}，请仔细遵循用户指令，用markdown回复，当前日期：{date}", label: "系统Prompt");
     }
-    chatBot = gr.Chatbot(label: "聊天窗口", height: 700, showCopyButton: true, placeholder: "这里显示聊天历史记录");
+    Chatbot chatBot = gr.Chatbot(label: "聊天窗口", showCopyButton: true, placeholder: "这里显示聊天历史记录");
+    Textbox userInput;
     using (gr.Row())
     {
-        using (gr.Column(scale: 9))
-        {
-            userInput = gr.Textbox(label: "用户输入", placeholder: "请输入你的问题或指令...");
-        }
+        userInput = gr.Textbox(label: "用户输入", placeholder: "请输入你的问题或指令...");
+    }
+    using (gr.Row())
+    {
         sendButton = gr.Button("✉️发送", variant: ButtonVariant.Primary);
         regenerateButton = gr.Button("🔃重新生成", variant: ButtonVariant.Secondary);
+        resetButton = gr.Button("🔄重置聊天", variant: ButtonVariant.Stop);
     }
     using (gr.Row())
     {
@@ -60,7 +55,7 @@ static Blocks CreateBlocks(IServiceProvider sp)
 
     sendButton.Click(streamingFn: i =>
     {
-        string model = Radio.Payload(i.Data[0]).Single();
+        string model = Dropdown.Payload(i.Data[0]).Single();
         string systemPrompt = Textbox.Payload(i.Data[1]);
         IList<ChatbotMessagePair> chatHistory = Chatbot.Payload(i.Data[2]);
         string userInput = Textbox.Payload(i.Data[3]);
@@ -69,7 +64,7 @@ static Blocks CreateBlocks(IServiceProvider sp)
     }, inputs: [model, systemPrompt, chatBot, userInput], outputs: [userInput, chatBot]);
     regenerateButton.Click(streamingFn: i =>
     {
-        string model = Radio.Payload(i.Data[0]).Single();
+        string model = Dropdown.Payload(i.Data[0]).Single();
         string systemPrompt = Textbox.Payload(i.Data[1]);
         IList<ChatbotMessagePair> chatHistory = Chatbot.Payload(i.Data[2]);
         if (chatHistory.Count == 0)
@@ -81,7 +76,7 @@ static Blocks CreateBlocks(IServiceProvider sp)
 
         return Respond(model, systemPrompt, chatHistory, userInput, sp);
     }, inputs: [model, systemPrompt, chatBot], outputs: [userInput, chatBot]);
-    resetButton.Click(i => Task.FromResult(gr.Output(new ChatbotMessagePair[0], "")), outputs: [chatBot, userInput]);
+    resetButton.Click(i => Task.FromResult(gr.Output(Array.Empty<ChatbotMessagePair>(), "")), outputs: [chatBot, userInput]);
 
     return blocks;
 }
