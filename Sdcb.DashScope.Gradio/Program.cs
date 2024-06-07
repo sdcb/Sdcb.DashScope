@@ -22,7 +22,11 @@ static Blocks CreateBlocks(IServiceProvider sp)
     Textbox systemPrompt;
 
     gr.Markdown("# 通义千问开源模型");
-    string[] knownModels = ["qwen1.5-110b-chat", "qwen1.5-72b-chat", "qwen1.5-32b-chat", "qwen1.5-14b-chat", "qwen1.5-7b-chat", "qwen1.5-1.8b-chat", "qwen1.5-0.5b-chat", "codeqwen1.5-7b-chat"];
+    string[] knownModels = 
+    [
+        "qwen2-57b-a14b-instruct", "qwen2-72b-instruct", "qwen2-7b-instruct", "qwen2-1.5b-instruct", "qwen2-0.5b-instruct",
+        "qwen1.5-110b-chat", "qwen1.5-72b-chat", "qwen1.5-32b-chat", "qwen1.5-14b-chat", "qwen1.5-7b-chat", "qwen1.5-1.8b-chat", "qwen1.5-0.5b-chat", "codeqwen1.5-7b-chat"
+    ];
     Dropdown model;
 
     using (gr.Row())
@@ -31,11 +35,7 @@ static Blocks CreateBlocks(IServiceProvider sp)
         systemPrompt = gr.Textbox("你是通义千问模型版本{model}，请仔细遵循用户指令，用markdown回复，当前日期：{date}", label: "系统Prompt");
     }
     Chatbot chatBot = gr.Chatbot(label: "聊天窗口", showCopyButton: true, placeholder: "这里显示聊天历史记录");
-    Textbox userInput;
-    using (gr.Row())
-    {
-        userInput = gr.Textbox(label: "用户输入", placeholder: "请输入你的问题或指令...");
-    }
+    Textbox userInput = gr.Textbox(label: "用户输入", placeholder: "请输入你的问题或指令...");
     using (gr.Row())
     {
         sendButton = gr.Button("✉️发送", variant: ButtonVariant.Primary);
