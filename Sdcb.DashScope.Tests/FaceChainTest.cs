@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Sdcb.DashScope.FineTunes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace Sdcb.DashScope.Tests;

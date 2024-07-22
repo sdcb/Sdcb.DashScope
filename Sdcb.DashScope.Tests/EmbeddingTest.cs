@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Sdcb.DashScope.TextEmbedding;
-using Sdcb.DashScope.TextGeneration;
-using System.Text;
 using System.Text.Json;
 using Xunit.Abstractions;
 

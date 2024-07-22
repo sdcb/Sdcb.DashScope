@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Sdcb.DashScope.TextGeneration;
-using System.Text;
 using Xunit.Abstractions;
 
 namespace Sdcb.DashScope.Tests;

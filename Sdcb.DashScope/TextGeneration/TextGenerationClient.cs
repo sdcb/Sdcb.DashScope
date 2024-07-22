@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -194,7 +192,6 @@ public class TextGenerationClient
             throw new DashScopeException(await resp.Content.ReadAsStringAsync());
         }
         using StreamReader reader = new(await resp.Content.ReadAsStreamAsync(), Encoding.UTF8);
-        string lastReturn = "";
         while (!reader.EndOfStream)
         {
             if (cancellationToken.IsCancellationRequested) throw new TaskCanceledException();
@@ -208,20 +205,11 @@ public class TextGenerationClient
                     throw new DashScopeException(data);
                 }
                 ResponseWrapper<ChatVLOutput, ChatTokenUsage> delta = JsonSerializer.Deserialize<ResponseWrapper<ChatVLOutput, ChatTokenUsage>>(data)!;
-                string oldTextContent = ((TextContentItem)delta.Output.Choices[0].Message.Content[0]).Text;
-                string newTextContent = oldTextContent;
-
-                // QwenVL returns the whole text, so we need to remove the old text
-                if (parameters.IncrementalOutput == true)
-                {
-                    newTextContent = oldTextContent[lastReturn.Length..];
-                }
-                lastReturn = oldTextContent;
 
                 yield return new ResponseWrapper<string, ChatTokenUsage>()
                 {
                     RequestId = delta.RequestId,
-                    Output = newTextContent,
+                    Output = ((TextContentItem)delta.Output.Choices[0].Message.Content[0]).Text,
                     Usage = delta.Usage,
                 };
             }

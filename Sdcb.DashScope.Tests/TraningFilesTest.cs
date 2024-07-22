@@ -1,8 +1,5 @@
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Sdcb.DashScope.TrainingFiles;
-using System.Security.Cryptography;
-using System.Text.Json.Serialization;
 using Xunit.Abstractions;
 
 namespace Sdcb.DashScope.Tests;
