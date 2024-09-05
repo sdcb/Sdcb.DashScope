@@ -30,4 +30,7 @@ internal record MessageWrapper
 {
     [JsonPropertyName("message")]
     public required ChatVLMessage Message { get; init; }
+
+    [JsonPropertyName("finish_reason")]
+    public string? FinishReason { get; init; }
 }

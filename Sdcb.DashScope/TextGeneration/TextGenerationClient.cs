@@ -205,13 +205,15 @@ public class TextGenerationClient
                     throw new DashScopeException(data);
                 }
                 ResponseWrapper<ChatVLOutput, ChatTokenUsage> delta = JsonSerializer.Deserialize<ResponseWrapper<ChatVLOutput, ChatTokenUsage>>(data)!;
-
-                yield return new ResponseWrapper<string, ChatTokenUsage>()
+                if (delta.Output.Choices[0].Message.Content.Length > 0)
                 {
-                    RequestId = delta.RequestId,
-                    Output = ((TextContentItem)delta.Output.Choices[0].Message.Content[0]).Text,
-                    Usage = delta.Usage,
-                };
+                    yield return new ResponseWrapper<string, ChatTokenUsage>()
+                    {
+                        RequestId = delta.RequestId,
+                        Output = ((TextContentItem)delta.Output.Choices[0].Message.Content[0]).Text,
+                        Usage = delta.Usage,
+                    };
+                }
             }
         }
     }
