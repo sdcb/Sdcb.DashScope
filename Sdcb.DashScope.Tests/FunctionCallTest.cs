@@ -55,7 +55,8 @@ public class FunctionCallTest
                     new FunctionParameter("date", "string", "日期，必须为yyyyMMdd的格式")
                     ]
                 )
-            ]
+            ],
+            IncrementalOutput = true,
         }))
         {
             Assert.NotNull(result.Output.Choices[0].Message.ToolCalls);

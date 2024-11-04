@@ -89,12 +89,18 @@ public record Function
     /// <summary>
     /// Gets the name of the function being called.
     /// </summary>
+    /// <remarks>
+    /// maybe null when <see cref="ChatParameters.IncrementalOutput"/> is <c>false</c>.
+    /// </remarks>
     [JsonPropertyName("name")]
-    public required string Name { get; init; }
+    public string? Name { get; init; }
 
     /// <summary>
-    /// Gets the arguments provided to the function call.
+    /// Gets the arguments provided to the function call, in JSON format.
     /// </summary>
+    /// <remarks>
+    /// maybe null when <see cref="ChatParameters.IncrementalOutput"/> is <c>false</c>.
+    /// </remarks>
     [JsonPropertyName("arguments")]
-    public required string Arguments { get; init; }
+    public string? Arguments { get; init; }
 }
