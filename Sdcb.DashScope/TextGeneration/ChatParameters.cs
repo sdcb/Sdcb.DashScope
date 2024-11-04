@@ -177,4 +177,43 @@ public record ChatParameters
     /// </summary>
     [JsonPropertyName("tool_choice")]
     public object? ToolChoice { get; set; }
+
+    /// <summary>
+    /// Specifies the format of the response returned by the model. This setting determines how the output will be structured.
+    /// <para>Default value is {"type": "text"}, which returns the model's output as plain text.</para>
+    /// <para>When set to {"type": "json_object"}, the output will be a standard JSON string, suitable for further processing in applications
+    /// that consume JSON.</para>
+    /// <para>This parameter is supported by the following models:</para>
+    /// <list type="bullet">
+    /// <item><description>qwen-max, qwen-max-0919, qwen-max-latest;</description></item>
+    /// <item><description>qwen-plus, qwen-plus-0919, qwen-plus-latest;</description></item>
+    /// <item><description>qwen-turbo, qwen-turbo-0919, qwen-turbo-latest;</description></item>
+    /// <item><description>qwen2.5 series (excluding math and coder models).</description></item>
+    /// </list>
+    /// </summary>
+    [JsonPropertyName("response_format")]
+    public ChatResponseFormat? ResponseFormat { get; set; }
 }
+
+/// <summary>
+/// The format of the response returned by the model. This setting determines how the output will be structured.
+/// </summary>
+public record ChatResponseFormat
+{
+    /// <summary>
+    /// Gets or sets the type of the response format.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public required string Type { get; init; }
+
+    /// <summary>
+    /// Gets the response format as plain text.
+    /// </summary>
+    public static ChatResponseFormat Text { get; } = new() { Type = "text" };
+
+    /// <summary>
+    /// Gets the response format as a JSON object.
+    /// </summary>
+    public static ChatResponseFormat JsonObject { get; } = new() { Type = "json_object" };
+}
+
