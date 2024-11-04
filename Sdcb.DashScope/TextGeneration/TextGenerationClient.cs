@@ -56,23 +56,23 @@ public class TextGenerationClient
     /// <param name="parameters">Optional parameters to customize the chat behavior.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>
-    /// <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatOutput"/> as the result of the interaction and 
+    /// <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatChoice"/> as the result of the interaction and 
     /// <see cref="ChatTokenUsage"/> that provides metadata about the token usage for the conversation.
     /// </returns>
-    public async Task<ResponseWrapper<ChatOutput, ChatTokenUsage>> Chat(string model, IReadOnlyList<ChatMessage> messages, ChatParameters? parameters = null, CancellationToken cancellationToken = default)
+    public async Task<ResponseWrapper<ChatResponse, ChatTokenUsage>> Chat(string model, IReadOnlyList<ChatMessage> messages, ChatParameters? parameters = null, CancellationToken cancellationToken = default)
     {
         HttpRequestMessage httpRequest = new(HttpMethod.Post, @"https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation")
         {
             Content = JsonContent.Create(RequestWrapper.Create(model, new
             {
                 messages, 
-            }, parameters), options: new JsonSerializerOptions
+            }, parameters ?? new()), options: new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             }),
         };
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(httpRequest, cancellationToken);
-        return await DashScopeClient.ReadResponse<ResponseWrapper<ChatOutput, ChatTokenUsage>>(resp, cancellationToken);
+        return await DashScopeClient.ReadResponse<ResponseWrapper<ChatResponse, ChatTokenUsage>>(resp, cancellationToken);
     }
 
     /// <summary>
@@ -107,10 +107,10 @@ public class TextGenerationClient
     /// <param name="parameters">Optional parameters to customize the chat behavior.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>
-    /// Streamed <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatOutput"/> as the result of the interaction and 
+    /// Streamed <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatChoice"/> as the result of the interaction and 
     /// <see cref="ChatTokenUsage"/> that provides metadata about the token usage for the conversation.
     /// </returns>
-    public async IAsyncEnumerable<ResponseWrapper<ChatOutput, ChatTokenUsage>> ChatStreamed(string model, 
+    public async IAsyncEnumerable<ResponseWrapper<ChatResponse, ChatTokenUsage>> ChatStreamed(string model, 
         IReadOnlyList<ChatMessage> messages, 
         ChatParameters? parameters = null, 
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -120,7 +120,7 @@ public class TextGenerationClient
             Content = JsonContent.Create(RequestWrapper.Create(model, new
             {
                 messages,
-            }, parameters), options: new JsonSerializerOptions
+            }, parameters ?? new()), options: new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             }),
@@ -147,7 +147,7 @@ public class TextGenerationClient
                 {
                     throw new DashScopeException(data);
                 }
-                yield return JsonSerializer.Deserialize<ResponseWrapper<ChatOutput, ChatTokenUsage>>(data)!;
+                yield return JsonSerializer.Deserialize<ResponseWrapper<ChatResponse, ChatTokenUsage>>(data)!;
             }
         }
     }
@@ -165,7 +165,7 @@ public class TextGenerationClient
     /// <param name="parameters">Optional parameters to customize the chat behavior.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>
-    /// Streamed <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatOutput"/> as the result of the interaction and 
+    /// Streamed <see cref="ResponseWrapper{TOutput, TUsage}"/> object with the <see cref="ChatChoice"/> as the result of the interaction and 
     /// <see cref="ChatTokenUsage"/> that provides metadata about the token usage for the conversation.
     /// </returns>
     public async IAsyncEnumerable<ResponseWrapper<string, ChatTokenUsage>> ChatVLStreamed(string model,

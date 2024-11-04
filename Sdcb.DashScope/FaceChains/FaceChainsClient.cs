@@ -55,7 +55,7 @@ public class FaceChainsClient
             })
         };
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
-        JsonElement result = await Parent.ReadWrapperResponse<JsonElement>(resp, cancellationToken);
+        JsonElement result = await DashScopeClient.ReadWrapperResponse<JsonElement>(resp, cancellationToken);
         return result
             .GetProperty("is_face")
             .EnumerateArray()
@@ -102,7 +102,7 @@ public class FaceChainsClient
         };
         msg.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
-        DashScopeTask result = await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
+        DashScopeTask result = await DashScopeClient.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
         return result;
     }
 }

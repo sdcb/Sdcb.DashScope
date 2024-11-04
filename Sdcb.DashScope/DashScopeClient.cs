@@ -102,7 +102,7 @@ public class DashScopeClient : IDisposable
     /// </summary>
     public void Dispose() => HttpClient.Dispose();
 
-    internal async Task<T> ReadWrapperResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
+    internal static async Task<T> ReadWrapperResponse<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
         return (await ReadResponse<ResponseWrapper<T, ImageTaskUsage>>(response, cancellationToken)).Output;
     }

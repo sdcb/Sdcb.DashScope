@@ -18,6 +18,7 @@
 * [x] 通义千问开源模型 qwen-72b-chat/14b/7b/1.8b
 * [x] 通义千问VL qwen-vl-plus
 * [x] 其它DashScope中的开源大语言模型如ChatGLM（理论上都可以用）
+* [x] Function call
 * [ ] 通用文本向量 text-embedding-v1/v2
   * [x] 同步
   * [ ] 异步

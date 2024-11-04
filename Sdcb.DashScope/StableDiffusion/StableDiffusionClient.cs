@@ -38,6 +38,6 @@ public class StableDiffusionClient
         };
         httpRequest.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(httpRequest, cancellationToken);
-        return await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
+        return await DashScopeClient.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
     }
 }

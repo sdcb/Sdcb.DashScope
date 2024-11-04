@@ -39,7 +39,7 @@ public class WanXiangClient
         };
         msg.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
-        return await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
+        return await DashScopeClient.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
     }
 
     /// <summary>
@@ -61,6 +61,6 @@ public class WanXiangClient
         };
         httpRequest.Headers.TryAddWithoutValidation("X-DashScope-Async", "enable");
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(httpRequest, cancellationToken);
-        return await Parent.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
+        return await DashScopeClient.ReadWrapperResponse<DashScopeTask>(resp, cancellationToken);
     }
 }

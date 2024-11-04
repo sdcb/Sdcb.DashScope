@@ -43,7 +43,7 @@ public class FineTunesClient
             })
         };
         HttpResponseMessage resp = await Parent.HttpClient.SendAsync(msg, cancellationToken);
-        return await Parent.ReadWrapperResponse<FineTuneJob>(resp, cancellationToken);
+        return await DashScopeClient.ReadWrapperResponse<FineTuneJob>(resp, cancellationToken);
     }
 
     /// <summary>
@@ -55,6 +55,6 @@ public class FineTunesClient
     public async Task<FineTuneJobDetailed> GetJobStatus(string jobId, CancellationToken cancellationToken = default)
     {
         HttpResponseMessage resp = await Parent.HttpClient.GetAsync($@"https://dashscope.aliyuncs.com/api/v1/fine-tunes/{jobId}", cancellationToken);
-        return await Parent.ReadWrapperResponse<FineTuneJobDetailed>(resp, cancellationToken);
+        return await DashScopeClient.ReadWrapperResponse<FineTuneJobDetailed>(resp, cancellationToken);
     }
 }

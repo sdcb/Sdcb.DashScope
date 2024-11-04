@@ -2,6 +2,7 @@ using Dapper;
 using Gradio.Net;
 using Gradio.Net.Enums;
 using Sdcb.DashScope;
+using Sdcb.DashScope.TextGeneration;
 using System.Data.SqlClient;
 using DashScopeChatMessage = Sdcb.DashScope.TextGeneration.ChatMessage;
 
@@ -113,16 +114,16 @@ static async IAsyncEnumerable<Output> Respond(string model, string systemPrompt,
         }),
         DashScopeChatMessage.FromUser(message),
     ];
-    await foreach (var item in api.TextGeneration.ChatStreamed(model, msgs, new()
+    await foreach (ResponseWrapper<ChatResponse, ChatTokenUsage> item in api.TextGeneration.ChatStreamed(model, msgs, new()
     {
         //EnableSearch = true, 
         IncrementalOutput = true,
         Seed = (ulong)Random.Shared.Next()
     }))
     {
-        chatHistory[^1].AiMessage.TextMessage += item.Output.Text;
+        chatHistory[^1].AiMessage.TextMessage += item.Output.Choices[0].Message.Content;
         yield return gr.Output("", chatHistory);
-        if (item.Output.FinishReason == "stop")
+        if (item.Output.Choices[0].FinishReason == "stop")
         {
             string? connectionString = config.GetValue<string>("ConnectionString");
             if (connectionString != null)
