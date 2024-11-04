@@ -41,7 +41,7 @@ public record FunctionParameter
         Name = name;
         Type = type;
         Description = description;
-        Required = true;
+        Required = required;
     }
 
     internal FunctionParameterDto ToDto() => new(Name, Type, Description);

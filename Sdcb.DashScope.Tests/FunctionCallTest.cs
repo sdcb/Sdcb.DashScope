@@ -21,6 +21,8 @@ public class FunctionCallTest
         _console = console;
     }
 
+    private readonly JsonSerializerOptions jsonSerializerOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
     [Fact]
     public async Task FunctionCall()
     {
@@ -36,7 +38,6 @@ public class FunctionCallTest
                 )
             ]
         });
-        JsonSerializerOptions jsonSerializerOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
         Assert.NotNull(result.Output.Choices[0].Message.ToolCalls);
         _console.WriteLine(JsonSerializer.Serialize(result.Output.Choices[0].Message.ToolCalls!, jsonSerializerOptions));
     }
@@ -57,7 +58,6 @@ public class FunctionCallTest
             ]
         }))
         {
-            JsonSerializerOptions jsonSerializerOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
             Assert.NotNull(result.Output.Choices[0].Message.ToolCalls);
             _console.WriteLine(JsonSerializer.Serialize(result.Output.Choices[0].Message.ToolCalls!, jsonSerializerOptions));
         }

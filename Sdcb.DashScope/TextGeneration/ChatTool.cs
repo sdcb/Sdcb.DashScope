@@ -18,6 +18,7 @@ public abstract record ChatTool
     [JsonPropertyName("type")]
     public required string Type { get; init; }
 
+    [SetsRequiredMembers]
     internal ChatTool(string type) => Type = type;
 
     /// <summary>
@@ -36,7 +37,7 @@ public abstract record ChatTool
 /// <summary>
 /// Represents a function, including its name, description, and parameters.
 /// </summary>
-internal record FunctionChatTool() : ChatTool("function")
+internal record FunctionChatTool : ChatTool
 {
     /// <summary>
     /// Gets the function definition.
@@ -51,7 +52,7 @@ internal record FunctionChatTool() : ChatTool("function")
     /// <param name="description">The description of the function.</param>
     /// <param name="parameters">The parameters of the function.</param>
     [SetsRequiredMembers]
-    public FunctionChatTool(string name, string? description, IReadOnlyList<FunctionParameter>? parameters = null) : this()
+    public FunctionChatTool(string name, string? description, IReadOnlyList<FunctionParameter>? parameters = null) : base("function")
     {
         Function = new FunctionDef(name, description, parameters);
     }

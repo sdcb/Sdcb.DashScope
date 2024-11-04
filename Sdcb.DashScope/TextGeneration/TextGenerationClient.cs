@@ -173,7 +173,7 @@ public class TextGenerationClient
         ChatParameters? parameters = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        parameters = parameters ?? new ChatParameters();
+        parameters ??= new ChatParameters();
         HttpRequestMessage httpRequest = new(HttpMethod.Post, @"https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation")
         {
             Content = JsonContent.Create(
